@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <modDesc descVersion="106">
     <author>TisonK &amp; LeGrizzly</author>
-    <version>1.1.4.0</version>
+    <version>1.1.4.1</version>
     <title>
         <en>Market Dynamics</en>
     </title>
@@ -14,6 +14,35 @@
     <multiplayer supported="true" />
 
     <extraSourceFiles>
+        <sourceFile filename="src/Logger.lua" />
+        <sourceFile filename="src/MarketEngine.lua" />
+        <sourceFile filename="src/WorldEventSystem.lua" />
+        <sourceFile filename="src/FuturesMarket.lua" />
+        <sourceFile filename="src/MarketSerializer.lua" />
+        <sourceFile filename="src/PriceHook.lua" />
+        <sourceFile filename="src/AdminCommands.lua" />
+        <sourceFile filename="src/BCIntegration.lua" />
+        <sourceFile filename="src/UPIntegration.lua" />
+        <sourceFile filename="src/gui/SettingsUI.lua" />
+        <sourceFile filename="src/gui/MDMDialogLoader.lua" />
+        <sourceFile filename="src/gui/MDMContractDialog.lua" />
+        <sourceFile filename="src/gui/MDMContractAdminDialog.lua" />
+        <sourceFile filename="src/gui/MarketScreenGraph.lua" />
+        <sourceFile filename="src/gui/MarketScreen.lua" />
+        <sourceFile filename="src/events/MDMContractRequestEvent.lua" />
+        <sourceFile filename="src/events/MDMContractSyncEvent.lua" />
+        <sourceFile filename="src/events/MDMContractSyncRequestEvent.lua" />
+        <sourceFile filename="src/events/DroughtEvent.lua" />
+        <sourceFile filename="src/events/BumperHarvestEvent.lua" />
+        <sourceFile filename="src/events/TradeDisruptionEvent.lua" />
+        <sourceFile filename="src/events/GeopoliticalEvent.lua" />
+        <sourceFile filename="src/events/BiofuelInitiativeEvent.lua" />
+        <sourceFile filename="src/events/LivestockBoomEvent.lua" />
+        <sourceFile filename="src/events/PestOutbreakEvent.lua" />
+        <sourceFile filename="src/events/ColdSnapEvent.lua" />
+        <sourceFile filename="src/events/FinancialPanicEvent.lua" />
+        <sourceFile filename="src/events/ProteinPremiumEvent.lua" />
+        <sourceFile filename="src/MarketDynamics.lua" />
         <sourceFile filename="main.lua" />
     </extraSourceFiles>
 
