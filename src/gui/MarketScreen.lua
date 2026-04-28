@@ -415,25 +415,9 @@ function MDMMarketScreen:onListSelectionChanged(list, section, index)
         self.selectedCropIndex = index
         self:refreshPricesDetail()
     elseif list == self.contractList and index > 0 then
+        -- Only track the selection index here. The dialog is opened exclusively
+        -- by onContractRowClick (real user click), never by programmatic reloads.
         self.selectedContractIndex = index
-        if self._reloadingContracts then return end
-
-        -- When BetterContracts is active it owns the contract lifecycle entirely.
-        -- The admin dialog is meaningless in that context and its open/close cycle
-        -- causes the spam bug, so skip it completely.
-        if BCIntegration.isEnabled() then return end
-
-        local contract = self.contractData[index]
-        if not contract then return end
-        MDMDialogLoader.show("MDMContractAdminDialog", "setData", {
-            contract   = contract,
-            onComplete = function(contractId)
-                self:_onContractAdminAction("complete", contractId)
-            end,
-            onCancel   = function(contractId)
-                self:_onContractAdminAction("cancel", contractId)
-            end,
-        })
     end
 end
 
@@ -441,9 +425,26 @@ function MDMMarketScreen:onClickCommodity(element)
     -- onListSelectionChanged handles selection; nothing extra needed
 end
 
--- Contract admin dialog is now opened in onListSelectionChanged to ensure
--- the current selection index is always used (not the previously selected one).
+-- Opens the contract admin dialog. Called only on real user click via XML onClick,
+-- never by programmatic list reloads — this is the sole gatekeeper for the dialog.
 function MDMMarketScreen:onContractRowClick(element)
+    if BCIntegration.isEnabled() then return end
+
+    local index = self.selectedContractIndex
+    if index <= 0 then return end
+
+    local contract = self.contractData[index]
+    if not contract then return end
+
+    MDMDialogLoader.show("MDMContractAdminDialog", "setData", {
+        contract   = contract,
+        onComplete = function(contractId)
+            self:_onContractAdminAction("complete", contractId)
+        end,
+        onCancel   = function(contractId)
+            self:_onContractAdminAction("cancel", contractId)
+        end,
+    })
 end
 
 -- Refresh the contracts list after an admin action.

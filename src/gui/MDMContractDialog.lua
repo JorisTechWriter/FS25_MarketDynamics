@@ -139,6 +139,7 @@ end
 function MDMContractDialog:onOpen()
     MDMContractDialog:superClass().onOpen(self)
     self.isOpen = true
+    self._isPending = false
 
     local hasCrops = #self.commodities > 0
 
@@ -157,6 +158,7 @@ end
 
 function MDMContractDialog:onClose()
     self.isOpen = false
+    self._isPending = false
     MDMContractDialog:superClass().onClose(self)
 end
 
