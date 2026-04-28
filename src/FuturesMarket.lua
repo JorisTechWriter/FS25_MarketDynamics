@@ -232,6 +232,10 @@ function FuturesMarket:_defaultContract(id)
 
     -- Notify UPIntegration for credit score reporting.
     UPIntegration.onContractDefaulted(id, contract.farmId, penalty)
+
+    if g_server ~= nil then
+        MDMContractSyncEvent.sendToClients(MDMContractSyncEvent.SYNC_UPDATE, contract)
+    end
 end
 
 -- ---------------------------------------------------------------------------
@@ -274,3 +278,4 @@ function FuturesMarket:adminDelete(contractId)
         MDMContractSyncEvent.sendToClients(MDMContractSyncEvent.SYNC_REMOVE, {id = contractId})
     end
 end
+
