@@ -8,7 +8,7 @@
   <GuiElement profile="newLayer" />
   <Bitmap profile="dialogFullscreenBg" />
 
-  <GuiElement profile="dialogBg" id="dialogElement" size="580px 360px">
+  <GuiElement profile="dialogBg" id="dialogElement" size="580px 420px">
     <ThreePartBitmap profile="fs25_dialogBgMiddle" />
     <ThreePartBitmap profile="fs25_dialogBgTop" />
     <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -18,14 +18,14 @@
       <!-- Title -->
       <Text profile="mdmCustom_title" id="dlgTitle" text="Custom Input" position="0px -12px" size="500px 30px"/>
 
-      <Bitmap profile="mdmCustom_separator" position="0px -48px" size="500px 2px"/>
+      <Bitmap profile="mdmCustom_separator" position="0px -44px" size="500px 2px"/>
 
       <!-- Input label -->
-      <Text profile="mdmCustom_label" id="dlgInputLabel" text="Enter Value:" position="0px -68px"/>
+      <Text profile="mdmCustom_label" id="dlgInputLabel" text="Enter Value:" position="0px -60px"/>
 
       <!-- Text input -->
       <TextInput profile="fs25_textInput" id="textInput"
-                 position="0px -100px" size="500px 44px"
+                 position="0px -88px" size="500px 44px"
                  maxCharacters="10"
                  onTextChanged="onTextChanged"
                  onEnterPressed="onConfirmClick">
@@ -33,7 +33,7 @@
       </TextInput>
 
       <!-- Hint (context set by Lua based on mode) -->
-      <Text profile="mdmCustom_hint" id="dlgHint" position="0px -162px" size="500px 60px"/>
+      <Text profile="mdmCustom_hint" id="dlgHint" position="0px -148px" size="500px 60px"/>
 
     </GuiElement>
 
