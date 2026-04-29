@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.1.5.1] - 2026-04-29
+
+### Fixed
+- Custom input dialog text field Y-position corrected (was clipping outside container on some resolutions)
+- Admin commands reworked for reliability and cleaner output formatting
+- Time unit toggle moved into the contract dialog for better UX flow
+
+---
+
 ## [1.1.5.0] - 2026-04-29
 
 ### Added
