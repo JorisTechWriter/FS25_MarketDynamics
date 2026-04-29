@@ -23,10 +23,11 @@
       <!-- Input label -->
       <Text profile="mdmCustom_label" id="dlgInputLabel" text="Enter Value:" position="0px -60px"/>
 
-      <!-- Text input wrapped in GuiElement to anchor it in the content container -->
+      <!-- Text input wrapped in GuiElement to anchor it in the content container.
+           Y-UP inside emptyPanel: position="0px 44px" = top of a 44px-tall wrapper. -->
       <GuiElement profile="emptyPanel" with="anchorTopLeft" position="0px -88px" size="500px 44px">
         <TextInput profile="fs25_textInput" id="textInput"
-                   position="0px 0px" size="500px 44px"
+                   position="0px 44px" size="500px 44px"
                    maxCharacters="10"
                    onTextChanged="onTextChanged"
                    onEnterPressed="onConfirmClick">
