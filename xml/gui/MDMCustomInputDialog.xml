@@ -23,20 +23,19 @@
       <!-- Input label -->
       <Text profile="mdmCustom_label" id="dlgInputLabel" text="Enter Value:" position="0px -60px"/>
 
-      <!-- Text input wrapped in GuiElement to anchor it in the content container.
-           Y-UP inside emptyPanel: position="0px 44px" = top of a 44px-tall wrapper. -->
-      <GuiElement profile="emptyPanel" with="anchorTopLeft" position="0px -88px" size="500px 44px">
-        <TextInput profile="fs25_textInput" id="textInput"
-                   position="0px 44px" size="500px 44px"
-                   maxCharacters="10"
-                   onTextChanged="onTextChanged"
-                   onEnterPressed="onConfirmClick">
-          <ThreePartBitmap profile="fs25_textInputBg" absoluteSizeOffset="0px 0px"/>
-        </TextInput>
-      </GuiElement>
+      <!-- Text input — directly below the label -->
+      <TextInput profile="mdmCustom_textInput" id="textInput"
+                 position="0px -82px" size="500px 36px"
+                 maxCharacters="10"
+                 onTextChanged="onTextChanged"
+                 onEnterPressed="onConfirmClick">
+        <ThreePartBitmap profile="fs25_textInputBg" absoluteSizeOffset="0px 0px"/>
+      </TextInput>
+
+      <Bitmap profile="mdmCustom_separator" position="0px -128px" size="500px 2px"/>
 
       <!-- Hint (context set by Lua based on mode) -->
-      <Text profile="mdmCustom_hint" id="dlgHint" position="0px -148px" size="500px 60px"/>
+      <Text profile="mdmCustom_hint" id="dlgHint" position="0px -142px" size="500px 60px"/>
 
     </GuiElement>
 
@@ -49,6 +48,10 @@
   </GuiElement>
 
   <GUIProfiles>
+    <Profile name="mdmCustom_textInput" extends="fs25_textInput" with="anchorTopLeft">
+      <textSize value="16px"/>
+      <textColor value="$preset_colorWhite"/>
+    </Profile>
     <Profile name="mdmCustom_title" extends="fs25_textDefault" with="anchorTopLeft">
       <textSize value="20px"/>
       <textBold value="true"/>

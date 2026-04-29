@@ -145,23 +145,81 @@ local function cmdEvents(self)
 end
 
 -- ---------------------------------------------------------------------------
+-- mdmReloadGui — hot-reload all MDM dialogs without restarting the game.
+--
+-- What it does:
+--   1. Closes any open MDM dialog gracefully.
+--   2. Clears the MDMDialogLoader registry (sets loaded=false, instance=nil)
+--      so the next show() call re-runs g_gui:loadGui() from disk.
+--   3. Re-registers the three modal dialogs so they are ready for use again.
+--
+-- What it does NOT do:
+--   - It does not reload MarketScreen (the InGameMenu tab frame).
+--     Reloading a TabbedMenuFrameElement requires re-running
+--     MDMMarketScreen.register(), which hooks into InGameMenu and is only
+--     safe to do once per session. Move/resize those elements in XML and
+--     reload the full session instead.
+--   - It does not reload SettingsUI, which is similarly a one-time init.
+--
+-- Usage (tilde console):
+--   mdmReloadGui
+-- ---------------------------------------------------------------------------
+
+local function cmdReloadGui(self)
+    if not g_MarketDynamics or not g_MarketDynamics.isActive then
+        print("[MDM] mdmReloadGui: system not active")
+        return
+    end
+
+    if not g_currentMission or not (not g_currentMission.isServer or g_currentMission.isClient) then
+        print("[MDM] mdmReloadGui: no GUI on dedicated server — nothing to reload")
+        return
+    end
+
+    print("[MDM] mdmReloadGui: closing open dialogs ...")
+
+    -- Close whichever modal is currently visible (safe to call even if closed)
+    MDMDialogLoader.close("MDMContractDialog")
+    MDMDialogLoader.close("MDMContractAdminDialog")
+    MDMDialogLoader.close("MDMCustomInputDialog")
+
+    -- Wipe the loader state so the next show() call forces a fresh loadGui()
+    MDMDialogLoader.cleanup()
+
+    -- Re-register all three modal dialogs (same list as onMissionLoaded)
+    local modDir = g_MarketDynamics.modDir
+    MDMDialogLoader.init(modDir)
+    MDMDialogLoader.register("MDMContractDialog",      MDMContractDialog,      "xml/gui/MDMContractDialog.xml")
+    MDMDialogLoader.register("MDMContractAdminDialog", MDMContractAdminDialog, "xml/gui/MDMContractAdminDialog.xml")
+    MDMDialogLoader.register("MDMCustomInputDialog",   MDMCustomInputDialog,   "xml/gui/MDMCustomInputDialog.xml")
+
+    print("[MDM] mdmReloadGui: done — 3 dialogs will reload from XML on next open")
+    print("[MDM]   MDMContractDialog      -> xml/gui/MDMContractDialog.xml")
+    print("[MDM]   MDMContractAdminDialog -> xml/gui/MDMContractAdminDialog.xml")
+    print("[MDM]   MDMCustomInputDialog   -> xml/gui/MDMCustomInputDialog.xml")
+    print("[MDM] Tip: MarketScreen tab and SettingsUI require a full session restart.")
+end
+
+-- ---------------------------------------------------------------------------
 -- Registration / removal — called from MarketDynamics lifecycle
 -- ---------------------------------------------------------------------------
 
 function MDMAdminCommands_register()
-    g_MarketDynamics.cmdMdmStatus = cmdStatus
-    g_MarketDynamics.cmdMdmEvent  = cmdEvent
-    g_MarketDynamics.cmdMdmExpire = cmdExpire
-    g_MarketDynamics.cmdMdmPrice  = cmdPrice
-    g_MarketDynamics.cmdMdmEvents = cmdEvents
+    g_MarketDynamics.cmdMdmStatus    = cmdStatus
+    g_MarketDynamics.cmdMdmEvent     = cmdEvent
+    g_MarketDynamics.cmdMdmExpire    = cmdExpire
+    g_MarketDynamics.cmdMdmPrice     = cmdPrice
+    g_MarketDynamics.cmdMdmEvents    = cmdEvents
+    g_MarketDynamics.cmdMdmReloadGui = cmdReloadGui
 
-    addConsoleCommand("mdmStatus", "MDM: system health and active events",          "cmdMdmStatus", g_MarketDynamics)
-    addConsoleCommand("mdmEvent",  "MDM: force-fire event (arg: eventId)",          "cmdMdmEvent",  g_MarketDynamics)
-    addConsoleCommand("mdmExpire", "MDM: force-expire active event (arg: eventId)", "cmdMdmExpire", g_MarketDynamics)
-    addConsoleCommand("mdmPrice",  "MDM: show price for a crop (arg: cropName)",    "cmdMdmPrice",  g_MarketDynamics)
-    addConsoleCommand("mdmEvents", "MDM: list all registered events and status",    "cmdMdmEvents", g_MarketDynamics)
+    addConsoleCommand("mdmStatus",    "MDM: system health and active events",          "cmdMdmStatus",    g_MarketDynamics)
+    addConsoleCommand("mdmEvent",     "MDM: force-fire event (arg: eventId)",          "cmdMdmEvent",     g_MarketDynamics)
+    addConsoleCommand("mdmExpire",    "MDM: force-expire active event (arg: eventId)", "cmdMdmExpire",    g_MarketDynamics)
+    addConsoleCommand("mdmPrice",     "MDM: show price for a crop (arg: cropName)",    "cmdMdmPrice",     g_MarketDynamics)
+    addConsoleCommand("mdmEvents",    "MDM: list all registered events and status",    "cmdMdmEvents",    g_MarketDynamics)
+    addConsoleCommand("mdmReloadGui", "MDM: hot-reload modal dialog XML without restart", "cmdMdmReloadGui", g_MarketDynamics)
 
-    MDMLog.info("AdminCommands: registered 5 console commands")
+    MDMLog.info("AdminCommands: registered 6 console commands")
 end
 
 function MDMAdminCommands_remove()
@@ -170,4 +228,5 @@ function MDMAdminCommands_remove()
     removeConsoleCommand("mdmExpire")
     removeConsoleCommand("mdmPrice")
     removeConsoleCommand("mdmEvents")
+    removeConsoleCommand("mdmReloadGui")
 end
