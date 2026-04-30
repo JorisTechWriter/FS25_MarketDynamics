@@ -60,6 +60,9 @@ local function _applyModifiers(intensity)
         end
     end
 
+    -- Extra config crops join the boost group (supply damaged by cold)
+    MDMEventConfig.applyExtra(EVENT_ID, boostFactor)
+
     MDMLog.info(string.format(
         "ColdSnapEvent applied — boost x%.2f on %d crops, suppress x%.2f on %d crops",
         boostFactor, #_boostedApplied, suppressFactor, #_suppressedApplied))
@@ -78,6 +81,7 @@ local function _removeModifiers()
             g_MarketDynamics.marketEngine:removeModifierById(fillType.index, EVENT_ID .. "_supp_" .. cropName)
         end
     end
+    MDMEventConfig.removeExtra(EVENT_ID)
     _boostedApplied    = {}
     _suppressedApplied = {}
 end
@@ -135,6 +139,9 @@ local function onLoad(intensity, extraData)
             end
         end
     end
+
+    -- Re-apply user config extra crops (boost group) after restore
+    MDMEventConfig.applyExtra(EVENT_ID, boostFactor)
 
     MDMLog.info(string.format(
         "ColdSnapEvent restored — %d boosted, %d suppressed from save",

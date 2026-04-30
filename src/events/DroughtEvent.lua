@@ -29,6 +29,7 @@ local function onFire(intensity)
         end
     end
 
+    MDMEventConfig.applyExtra(EVENT_ID, factor)
     MDMLog.info("DroughtEvent fired — factor " .. string.format("%.2f", factor))
 end
 
@@ -41,6 +42,7 @@ local function onExpire(intensity)
             g_MarketDynamics.marketEngine:removeModifierById(fillType.index, EVENT_ID .. "_" .. cropName)
         end
     end
+    MDMEventConfig.removeExtra(EVENT_ID)
 end
 
 -- Deferred registration: MDM_pendingRegistrations is a standalone global that exists

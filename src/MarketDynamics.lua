@@ -68,7 +68,9 @@ function MarketDynamics:onMissionLoaded(mission)
     MDMAdminCommands_register()
 
     -- Dialog loader: init + register modal dialogs (client only — no GUI on dedicated servers)
-    if not g_currentMission.isServer or g_currentMission.isClient then
+    -- Use g_client ~= nil rather than g_currentMission.isServer: the .isServer property
+    -- is unreliable on headless dedicated servers and can be nil during onMissionLoaded.
+    if g_client ~= nil then
         MDMDialogLoader.init(self.modDir)
         MDMDialogLoader.register("MDMContractDialog",      MDMContractDialog,      "xml/gui/MDMContractDialog.xml")
         MDMDialogLoader.register("MDMContractAdminDialog", MDMContractAdminDialog, "xml/gui/MDMContractAdminDialog.xml")
@@ -80,7 +82,18 @@ end
 
 -- Called when the player's savegame session actually starts (load saved data here)
 function MarketDynamics:onStartMission(mission)
-    if g_currentMission.isServer then
+    -- Use g_server ~= nil as the authoritative server check.
+    -- g_currentMission.isServer is unreliable on headless dedicated servers — it can be
+    -- nil or false during onStartMission even though the process IS the server, causing
+    -- the server to skip loading its XML and instead send a sync-request to itself,
+    -- which leaves all contracts empty after every rejoin (issue #51).
+    -- Load user event config (extra fill types per event) before loading savegame state
+    -- so that any config-based modifiers from active events are applied correctly.
+    local savegameDir = (g_currentMission and g_currentMission.missionInfo and
+                         g_currentMission.missionInfo.savegameDirectory) or ""
+    MDMEventConfig.load(savegameDir)
+
+    if g_server ~= nil then
         self.serializer:load(self)
         UPIntegration.reregisterActiveContracts(self.futuresMarket.contracts)
         MDMLog.info("MarketDynamics: savegame data loaded")
@@ -136,6 +149,11 @@ end
 -- Triggered by FSCareerMissionInfo.saveToXMLFile.
 function MarketDynamics:save(xmlFile)
     if not self.isActive then return end
+    -- Contracts are server-authoritative. On a dedicated server both the headless
+    -- process and each connected client receive the saveToXMLFile hook. If clients
+    -- are allowed to write, they overwrite the server's correct contract list with
+    -- their own (empty or stale) copy. Guard to server only.
+    if g_server == nil then return end
     self.serializer:save(self)
 end
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  FS25 MarketDynamics — Custom Event Fill Type Configuration
+  ==========================================================
+  Copy this file to your savegame directory and rename it to:
+      FS25_MarketDynamics_eventConfig.xml
+
+  Your savegame folder is typically at:
+      Documents\My Games\FarmingSimulator2025\savegame<N>\
+
+  For each event listed here, any fill types you add will also be
+  affected when that event fires — at the same price factor as the
+  event's primary group.
+
+  Fill type names must match the internal FS25 name (ALL_CAPS or mixed).
+  You can find fill type names in the game's fillTypes.xml or by checking
+  the mod that adds the custom crop.
+
+  Available event IDs:
+      drought               Drought (supply shock — grains & oilseeds)
+      bumper_harvest        Bumper Harvest (oversupply — grains)
+      cold_snap             Cold Snap (frost — supply damage, boost group)
+      pest_outbreak         Root Crop Blight (potato, sugarbeet)
+      biofuel_initiative    Biofuel Initiative (canola, sunflower, sugarbeet)
+      geopolitical          Geopolitical Crisis (staple grains & energy crops)
+      livestock_boom        Livestock Feed Boom (forage crops)
+      financial_panic       Financial Panic (broad sell-off — all crops)
+      protein_premium       Protein Premium Surge (soy, canola, milling grains)
+      trade_disruption      Trade Disruption (random 50% crop selection)
+-->
+<MDMEventConfig>
+
+    <!-- Example: add a custom oilseed crop to the drought event -->
+    <!--
+    <event id="drought">
+        <fillType name="MUNGBEAN"/>
+        <fillType name="QUINOA"/>
+    </event>
+    -->
+
+    <!-- Example: include a custom legume in the Protein Premium surge -->
+    <!--
+    <event id="protein_premium">
+        <fillType name="CHICKPEA"/>
+        <fillType name="LENTIL"/>
+    </event>
+    -->
+
+    <!-- Example: add a custom root crop to the pest outbreak event -->
+    <!--
+    <event id="pest_outbreak">
+        <fillType name="YACON"/>
+    </event>
+    -->
+
+</MDMEventConfig>

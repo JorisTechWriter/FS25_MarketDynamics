@@ -42,6 +42,7 @@ local function onFire(intensity)
         end
     end
 
+    MDMEventConfig.applyExtra(EVENT_ID, factor)
     MDMLog.info(string.format(
         "FinancialPanicEvent fired — ALL crops suppressed x%.2f (intensity %.2f)",
         factor, intensity))
@@ -56,6 +57,7 @@ local function onExpire(intensity)
             g_MarketDynamics.marketEngine:removeModifierById(fillType.index, EVENT_ID .. "_" .. cropName)
         end
     end
+    MDMEventConfig.removeExtra(EVENT_ID)
 
     MDMLog.info("FinancialPanicEvent expired — commodity markets stabilising")
 end

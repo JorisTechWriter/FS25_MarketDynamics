@@ -44,6 +44,8 @@ local function onFire(intensity)
         end
     end
 
+    -- Extra config crops use the staple factor (primary group)
+    MDMEventConfig.applyExtra(EVENT_ID, stapleFactor)
     MDMLog.info("GeopoliticalEvent fired — staple " .. string.format("%.2f", stapleFactor) ..
         "  energy " .. string.format("%.2f", energyFactor))
 end
@@ -62,6 +64,7 @@ local function onExpire(intensity)
             g_MarketDynamics.marketEngine:removeModifierById(fillType.index, EVENT_ID .. "_" .. cropName)
         end
     end
+    MDMEventConfig.removeExtra(EVENT_ID)
 end
 
 MDM_pendingRegistrations = MDM_pendingRegistrations or {}
