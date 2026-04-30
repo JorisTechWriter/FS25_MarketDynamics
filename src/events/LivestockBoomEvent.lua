@@ -29,6 +29,7 @@ local function onFire(intensity)
         end
     end
 
+    MDMEventConfig.applyExtra(EVENT_ID, factor)
     MDMLog.info("LivestockBoomEvent fired — forage crops up " .. math.floor((factor - 1) * 100) .. "pct")
 end
 
@@ -41,6 +42,7 @@ local function onExpire(intensity)
             g_MarketDynamics.marketEngine:removeModifierById(fillType.index, EVENT_ID .. "_" .. cropName)
         end
     end
+    MDMEventConfig.removeExtra(EVENT_ID)
 end
 
 -- Deferred registration

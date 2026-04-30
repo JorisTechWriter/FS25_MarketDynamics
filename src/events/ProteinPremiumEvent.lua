@@ -51,6 +51,8 @@ local function onFire(intensity)
         end
     end
 
+    -- Extra config crops use the protein (primary) factor
+    MDMEventConfig.applyExtra(EVENT_ID, proteinFactor)
     MDMLog.info(string.format(
         "ProteinPremiumEvent fired — protein x%.2f, milling x%.2f (intensity %.2f)",
         proteinFactor, millingFactor, intensity))
@@ -72,6 +74,7 @@ local function onExpire(intensity)
             g_MarketDynamics.marketEngine:removeModifierById(fillType.index, EVENT_ID .. "_mill_" .. cropName)
         end
     end
+    MDMEventConfig.removeExtra(EVENT_ID)
 end
 
 MDM_pendingRegistrations = MDM_pendingRegistrations or {}

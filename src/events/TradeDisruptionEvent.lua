@@ -40,6 +40,21 @@ local function onFire(intensity)
         end
     end
 
+    -- User-configured extra fill types also get the 50% random chance
+    for _, extraName in ipairs(MDMEventConfig.getExtraFillTypes(EVENT_ID)) do
+        if math.random() < 0.5 then
+            local fillType = g_fillTypeManager:getFillTypeByName(extraName:upper())
+            if fillType then
+                g_MarketDynamics.marketEngine:addModifier({
+                    id            = EVENT_ID .. "_" .. extraName,
+                    fillTypeIndex = fillType.index,
+                    factor        = factor,
+                })
+                _affectedCrops[#_affectedCrops + 1] = extraName
+            end
+        end
+    end
+
     MDMLog.info("TradeDisruptionEvent fired — factor " .. string.format("%.2f", factor) ..
         "  affected " .. #_affectedCrops .. "/" .. #ALL_CROPS .. " crops")
 end
@@ -48,6 +63,7 @@ local function onExpire(intensity)
     if not g_MarketDynamics then return end
 
     -- Only remove modifiers for crops that were actually applied at fire time.
+    -- This includes any user-configured extra fill types that were selected.
     for _, cropName in ipairs(_affectedCrops) do
         local fillType = g_fillTypeManager:getFillTypeByName(cropName:upper())
         if fillType then
