@@ -43,12 +43,11 @@ function MDMMarketScreen:initialize()
 
     MDMMarketScreen:superClass().initialize(self)
 
-    -- Register custom footer buttons:
-    --   [1] New Contract  → MENU_EXTRA_1 (custom, triggers dialog)
-    --   [2] Close         → MENU_BACK    (standard close)
     self:setMenuButtonInfo({
         {inputAction = "MENU_EXTRA_1", text = "New Contract",
          callback = function() self:onNewContractClick() end},
+        {inputAction = "MENU_EXTRA_2", text = "Event Settings",
+         callback = function() self:onEventSettingsClick() end},
         {inputAction = "MENU_BACK"},
     })
 end
@@ -134,7 +133,6 @@ function MDMMarketScreen:onGuiSetupFinished()
 
     self.eventsHeader    = self:getDescendantById("eventsHeader")
     self.noEventsText    = self:getDescendantById("noEventsText")
-    self.evtSettingsBtn  = self:getDescendantById("evtSettingsBtn")
 
     self.tabLabelPrices    = self:getDescendantById("tabLabelPrices")
     self.tabLabelEvents    = self:getDescendantById("tabLabelEvents")
@@ -551,6 +549,7 @@ function MDMMarketScreen:setActiveTab(tab)
     if self.tabUnderlinePrices    then self.tabUnderlinePrices:setVisible(tab == TAB_PRICES) end
     if self.tabUnderlineEvents    then self.tabUnderlineEvents:setVisible(tab == TAB_EVENTS) end
     if self.tabUnderlineContracts then self.tabUnderlineContracts:setVisible(tab == TAB_CONTRACTS) end
+
 end
 
 -- ---------------------------------------------------------------------------
