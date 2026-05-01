@@ -241,10 +241,10 @@ function MDMEventSettingsDialog:_refreshEventRows()
             end
             if self.rowTogTxts[i] then
                 if isDisabled then
-                    self.rowTogTxts[i]:setText("Disabled")
+                    self.rowTogTxts[i]:setText(g_i18n:getText("mdm_evt_disabled"))
                     self.rowTogTxts[i]:setTextColor(0.85, 0.38, 0.38, 1.0)
                 else
-                    self.rowTogTxts[i]:setText("Enabled")
+                    self.rowTogTxts[i]:setText(g_i18n:getText("mdm_evt_enabled"))
                     self.rowTogTxts[i]:setTextColor(0.25, 0.82, 0.48, 1.0)
                 end
             end
