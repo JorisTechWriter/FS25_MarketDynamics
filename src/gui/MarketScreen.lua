@@ -213,6 +213,19 @@ end
 function MDMMarketScreen:onOpen()
     MDMMarketScreen:superClass().onOpen(self)
 
+    -- Hide the Event Settings button for regular clients on a dedicated server.
+    -- In singleplayer and for admins/master users the button stays visible.
+    -- g_currentMission:getIsServer() is true in SP and on the host process.
+    -- g_currentMission.isAdmin is true for admin AND master users on a dedi server.
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        self:setMenuButtonInfo({
+            {inputAction = "MENU_EXTRA_1", text = "New Contract",
+             callback = function() self:onNewContractClick() end},
+            {inputAction = "MENU_BACK"},
+        })
+    end
+
     self:onMoneyChange()
     self:rebuildAllData()
     self:reloadAllLists()
@@ -228,8 +241,16 @@ function MDMMarketScreen:onClose()
     MDMMarketScreen:superClass().onClose(self)
 end
 
--- Called by the "Event Settings" button in the Events tab
+-- Called by the "Event Settings" button in the Events tab.
+-- Only the server host, admins, and master users may open this dialog.
+-- Regular clients on a dedicated server are blocked here (not just inside the dialog).
 function MDMMarketScreen:onEventSettingsClick()
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        MDMLog.debug("MarketScreen: onEventSettingsClick ignored — player is not an admin/master")
+        return
+    end
+
     MDMDialogLoader.show("MDMEventSettingsDialog", "setData", {
         onClose = function() end,
     })

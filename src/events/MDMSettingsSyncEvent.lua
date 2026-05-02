@@ -108,8 +108,11 @@ function MDMSettingsSyncEvent:run(connection)
 
     if g_server ~= nil and connection ~= nil then
         -- Received on server from a client: update local settings and broadcast to all others
-        -- Security: Only allow admins/host to change global settings
-        if g_currentMission:getIsAdmin(connection:getUserId()) then
+        -- Security: Only allow farm managers to change global settings
+        local userId = g_currentMission.userManager:getUserIdByConnection(connection)
+        local farm = userId ~= nil and g_farmManager:getFarmByUserId(userId) or nil
+        local isFarmManager = farm ~= nil and farm:isUserFarmManager(userId)
+        if isFarmManager then
             g_MarketDynamics.settings = self.settings
             if g_MarketDynamics.marketEngine then
                 g_MarketDynamics.marketEngine.volatilityScale = self.volatilityScale
@@ -118,7 +121,7 @@ function MDMSettingsSyncEvent:run(connection)
             -- Broadcast to all other clients
             g_server:broadcastEvent(self, false, connection)
         else
-            MDMLog.warn("MDMSettingsSyncEvent: unauthorized settings update attempt from client " .. tostring(connection:getUserId()))
+            MDMLog.warn("MDMSettingsSyncEvent: unauthorized settings update attempt from client " .. tostring(userId))
             -- Optional: Send the correct settings back to the unauthorized client to revert their local UI
             MDMSettingsSyncEvent.sendToClient(connection)
         end
