@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.1.9.1] - 2026-05-02
+
+### Added
+- **Browse Types (extended)** — You can now add individual fill types directly to events via the browser UI
+
+### Changed
+- Commodity handling expanded — events now support **all fill types**, not just crops
+- Multiplayer / dedicated server event settings improved for better consistency and reliability
+
+### Fixed
+- Contract completion issue that could prevent contracts from finishing correctly
+
+---
+
 ## [1.1.9.0] - 2026-05-02
 
 ### Added
