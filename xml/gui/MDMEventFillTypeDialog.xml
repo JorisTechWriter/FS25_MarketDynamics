@@ -94,6 +94,8 @@
     </GuiElement>
 
     <BoxLayout profile="fs25_dialogButtonBox">
+      <Button profile="buttonActivate" text="Browse Types" onClick="onBrowseClick" id="evtFtBrowseBtn"/>
+      <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
       <Button profile="buttonBack" text="$l10n_button_close" onClick="onCloseClick" id="evtFtCloseBtn"/>
     </BoxLayout>
 

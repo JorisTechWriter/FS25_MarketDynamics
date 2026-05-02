@@ -431,6 +431,13 @@ end
 function MDMMarketScreen:onContractRowClick(element)
     if BCIntegration.isEnabled() then return end
 
+    -- Security: Only admins/host can open the admin dialog
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        MDMLog.debug("MarketScreen: onContractRowClick ignored — player is not an admin")
+        return
+    end
+
     local index = self.selectedContractIndex
     if index <= 0 then return end
 
@@ -571,24 +578,21 @@ function MDMMarketScreen:_buildCommodityData()
     for fillTypeIndex, entry in pairs(engine.prices) do
         local fillType = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
         if fillType then
-            -- Only show harvestable field crops (not livestock, packaging, byproducts)
-            local isCrop = g_fruitTypeManager ~= nil
-                and g_fruitTypeManager.getFruitTypeByFillTypeIndex ~= nil
-                and g_fruitTypeManager:getFruitTypeByFillTypeIndex(fillTypeIndex) ~= nil
-            if isCrop then
-                local changePct = engine:getPriceChangePercent(fillTypeIndex)
-                table.insert(self.commodities, {
-                    idx        = fillTypeIndex,
-                    name       = fillType.name,
-                    title      = fillType.title or fillType.name,
-                    current    = entry.current,
-                    base       = entry.base,
-                    changePct  = changePct,
-                    volatility = entry.volatilityFactor,
-                    modifiers  = entry.modifiers,
-                    hudOverlay = fillType.hudOverlayFilename,
-                })
-            end
+            -- Show everything tracked by the engine (anything with a sell price).
+            -- This includes modded fill types (Compost, Wood products) that
+            -- are excluded by the strict FruitType check.
+            local changePct = engine:getPriceChangePercent(fillTypeIndex)
+            table.insert(self.commodities, {
+                idx        = fillTypeIndex,
+                name       = fillType.name,
+                title      = fillType.title or fillType.name,
+                current    = entry.current,
+                base       = entry.base,
+                changePct  = changePct,
+                volatility = entry.volatilityFactor,
+                modifiers  = entry.modifiers,
+                hudOverlay = fillType.hudOverlayFilename,
+            })
         end
     end
 

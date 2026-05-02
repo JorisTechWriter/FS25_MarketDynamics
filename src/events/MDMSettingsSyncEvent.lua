@@ -108,13 +108,20 @@ function MDMSettingsSyncEvent:run(connection)
 
     if g_server ~= nil and connection ~= nil then
         -- Received on server from a client: update local settings and broadcast to all others
-        g_MarketDynamics.settings = self.settings
-        if g_MarketDynamics.marketEngine then
-            g_MarketDynamics.marketEngine.volatilityScale = self.volatilityScale
+        -- Security: Only allow admins/host to change global settings
+        if g_currentMission:getIsAdmin(connection:getUserId()) then
+            g_MarketDynamics.settings = self.settings
+            if g_MarketDynamics.marketEngine then
+                g_MarketDynamics.marketEngine.volatilityScale = self.volatilityScale
+            end
+            MDMLog.info("MDMSettingsSyncEvent: server received settings update from authorized client")
+            -- Broadcast to all other clients
+            g_server:broadcastEvent(self, false, connection)
+        else
+            MDMLog.warn("MDMSettingsSyncEvent: unauthorized settings update attempt from client " .. tostring(connection:getUserId()))
+            -- Optional: Send the correct settings back to the unauthorized client to revert their local UI
+            MDMSettingsSyncEvent.sendToClient(connection)
         end
-        MDMLog.info("MDMSettingsSyncEvent: server received settings update from client")
-        -- Broadcast to all other clients
-        g_server:broadcastEvent(self, false, connection)
     else
         -- Received on client from server
         g_MarketDynamics.settings = self.settings

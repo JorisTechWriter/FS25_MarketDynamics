@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI name="MDMBrowseFillTypesDialog" onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+  <GuiElement profile="newLayer" />
+  <Bitmap profile="dialogFullscreenBg" />
+
+  <GuiElement profile="dialogBg" id="dialogElement" size="600px 700px">
+    <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+    <ThreePartBitmap profile="fs25_dialogBgTop" />
+    <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+    <GuiElement profile="fs25_dialogContentContainer">
+      <Text profile="fs25_dialogTitle" id="title" text="Available Fill Types" position="0px -14px" size="520px 28px"/>
+      <Bitmap profile="mdmFt_sep" position="0px -48px" size="520px 2px"/>
+
+      <Text profile="mdmFt_hint" text="Below are all fill types currently tracked by the market. Use these names in the event configuration."
+            position="0px -64px" size="520px 40px"/>
+
+      <!-- Scrollable Area -->
+      <ScrollingLayout profile="fs25_settingsLayout" id="scrollingLayout" position="0px -110px" size="520px 500px">
+          <!-- Elements added programmatically in Lua -->
+      </ScrollingLayout>
+
+    </GuiElement>
+
+    <BoxLayout profile="fs25_dialogButtonBox">
+      <Button profile="buttonBack" text="$l10n_button_close" onClick="onCloseClick" id="closeBtn"/>
+    </BoxLayout>
+  </GuiElement>
+
+  <GUIProfiles>
+    <Profile name="mdmFt_sep" extends="baseReference" with="anchorTopLeft">
+      <imageColor value="1.0 1.0 1.0 0.18"/>
+    </Profile>
+    <Profile name="mdmFt_hint" extends="fs25_textDefault" with="anchorTopLeft">
+      <textSize value="12px"/>
+      <textColor value="0.65 0.65 0.65 1.0"/>
+      <textWrap value="true"/>
+    </Profile>
+    <Profile name="mdmFt_row" extends="fs25_textDefault" with="anchorTopLeft">
+        <textSize value="14px"/>
+        <textColor value="1 1 1 1"/>
+        <textFocusedColor value="1 0.85 0.1 1"/>
+        <size value="500px 32px"/>
+        <textAlignment value="left"/>
+        <textOffset value="12px 0px"/>
+        <imageColor value="0 0 0 0"/>
+    </Profile>
+  </GUIProfiles>
+</GUI>

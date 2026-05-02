@@ -334,31 +334,39 @@ function MDMSettingsUI._updateSettingsUI()
         end
     end
 
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+
     if _elem.pricesEnabled then
         _elem.pricesEnabled:setIsChecked(mdm.settings.pricesEnabled ~= false, false, false)
+        _elem.pricesEnabled:setDisabled(not isAdmin)
     end
 
     if _elem.volatility then
         local scale = (mdm.marketEngine and mdm.marketEngine.volatilityScale) or 1.0
         _elem.volatility:setState(MDMSettingsUI._findValueIndex(VOLATILITY_VALUES, scale))
+        _elem.volatility:setDisabled(not isAdmin)
     end
 
     if _elem.eventsEnabled then
         _elem.eventsEnabled:setIsChecked(mdm.settings.eventsEnabled ~= false, false, false)
+        _elem.eventsEnabled:setDisabled(not isAdmin)
     end
 
     if _elem.eventFrequency then
         _elem.eventFrequency:setState(MDMSettingsUI._findValueIndex(
             EVENT_FREQUENCY_VALUES, mdm.settings.eventFrequency or 1.0))
+        _elem.eventFrequency:setDisabled(not isAdmin)
     end
 
     if _elem.futuresPenalty then
         _elem.futuresPenalty:setState(MDMSettingsUI._findValueIndex(
             FUTURES_PENALTY_VALUES, mdm.settings.futuresPenalty or 0.15))
+        _elem.futuresPenalty:setDisabled(not isAdmin)
     end
 
     if _elem.debugMode then
         _elem.debugMode:setIsChecked(MDMLog.debugEnabled == true, false, false)
+        _elem.debugMode:setDisabled(not isAdmin)
     end
 
     -- Status rows (live, updated on every open)

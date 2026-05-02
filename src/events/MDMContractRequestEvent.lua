@@ -76,5 +76,25 @@ end
 
 function MDMContractRequestEvent:run(connection)
     if connection:getIsServer() then return end
+
+    local isAdmin = g_currentMission:getIsAdmin(connection:getUserId())
+
+    if self.action == MDMContractRequestEvent.ACTION_CREATE then
+        -- Security: Non-admins can only create contracts for their own farm
+        if not isAdmin then
+            local user = g_currentMission.userManager:getUserByUserId(connection:getUserId())
+            if user and self.params.farmId ~= user.farmId then
+                MDMLog.warn("MDMContractRequestEvent: unauthorized farmId in contract creation from client " .. tostring(connection:getUserId()))
+                return
+            end
+        end
+    else
+        -- Security: Only admins can perform admin actions (Complete, Cancel, Delete)
+        if not isAdmin then
+            MDMLog.warn("MDMContractRequestEvent: unauthorized admin action attempt from client " .. tostring(connection:getUserId()))
+            return
+        end
+    end
+
     MDMContractRequestEvent.execute(self.action, self.params)
 end
