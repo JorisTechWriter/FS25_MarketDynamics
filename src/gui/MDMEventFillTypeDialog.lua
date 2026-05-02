@@ -191,6 +191,12 @@ function MDMEventFillTypeDialog:_removeAt(rowIndex)
     self:_setList(list)
     self:_refreshRows()
     MDMLog.info("MDMEventFillTypeDialog: removed '" .. tostring(removed) .. "' from event '" .. tostring(self.eventId) .. "'")
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 -- ── Add handler ───────────────────────────────────────────────────────────────
@@ -239,6 +245,12 @@ function MDMEventFillTypeDialog:onAddClick()
 
     self:_refreshRows()
     MDMLog.info("MDMEventFillTypeDialog: added '" .. name .. "' to event '" .. tostring(self.eventId) .. "'")
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 -- ── Per-row remove handlers ───────────────────────────────────────────────────

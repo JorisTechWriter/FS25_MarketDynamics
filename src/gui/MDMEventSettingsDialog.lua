@@ -182,30 +182,60 @@ function MDMEventSettingsDialog:onGlobalOffClick()
     if not g_MarketDynamics then return end
     g_MarketDynamics.settings.eventsEnabled = false
     self:_refreshGlobal()
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 function MDMEventSettingsDialog:onGlobalOnClick()
     if not g_MarketDynamics then return end
     g_MarketDynamics.settings.eventsEnabled = true
     self:_refreshGlobal()
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 function MDMEventSettingsDialog:onFreqRareClick()
     if not g_MarketDynamics then return end
     g_MarketDynamics.settings.eventFrequency = FREQ_RARE
     self:_refreshGlobal()
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 function MDMEventSettingsDialog:onFreqNormalClick()
     if not g_MarketDynamics then return end
     g_MarketDynamics.settings.eventFrequency = FREQ_NORMAL
     self:_refreshGlobal()
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 function MDMEventSettingsDialog:onFreqHighClick()
     if not g_MarketDynamics then return end
     g_MarketDynamics.settings.eventFrequency = FREQ_HIGH
     self:_refreshGlobal()
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 -- ── Fill type reference hint ──────────────────────────────────────────────────
@@ -334,6 +364,12 @@ function MDMEventSettingsDialog:_handleToggle(rowIndex)
     end
 
     self:_refreshEventRows()
+
+    if g_server ~= nil then
+        MDMSettingsSyncEvent.sendToClients()
+    else
+        MDMSettingsSyncEvent.sendToServer()
+    end
 end
 
 function MDMEventSettingsDialog:_handleEdit(rowIndex)
