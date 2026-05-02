@@ -79,6 +79,7 @@ function MarketDynamics:onMissionLoaded(mission)
         MDMDialogLoader.register("MDMCustomInputDialog",     MDMCustomInputDialog,     "xml/gui/MDMCustomInputDialog.xml")
         MDMDialogLoader.register("MDMEventSettingsDialog",   MDMEventSettingsDialog,   "xml/gui/MDMEventSettingsDialog.xml")
         MDMDialogLoader.register("MDMEventFillTypeDialog",   MDMEventFillTypeDialog,   "xml/gui/MDMEventFillTypeDialog.xml")
+        MDMDialogLoader.register("MDMBrowseFillTypesDialog", MDMBrowseFillTypesDialog, "xml/gui/MDMBrowseFillTypesDialog.xml")
     end
 
     MDMLog.info("MarketDynamics: mission loaded, system active")

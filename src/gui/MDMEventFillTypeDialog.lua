@@ -83,6 +83,15 @@ function MDMEventFillTypeDialog:onOpen()
     end
 
     self:_refreshRows()
+
+    -- Security: Disable buttons for non-admins
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        if self.addBtn then self.addBtn:setDisabled(true) end
+        for i = 0, MAX_ROWS - 1 do
+            if self.rowRemBtns[i] then self.rowRemBtns[i]:setDisabled(true) end
+        end
+    end
 end
 
 function MDMEventFillTypeDialog:onClose()
@@ -94,6 +103,20 @@ end
 
 function MDMEventFillTypeDialog:onCloseClick()
     self:close()
+end
+
+function MDMEventFillTypeDialog:onBrowseClick()
+    MDMDialogLoader.show("MDMBrowseFillTypesDialog", "setCallback", function(fillTypeName)
+        if self.isOpen and self.addInput then
+            self.addInput:setText(fillTypeName)
+        end
+    end)
+end
+
+function MDMEventFillTypeDialog:setFillType(fillTypeName)
+    if self.addInput then
+        self.addInput:setText(fillTypeName)
+    end
 end
 
 -- ── Hint helpers ──────────────────────────────────────────────────────────────

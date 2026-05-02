@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.1.9.1] - 2026-05-02
+
+### Added
+- **Browse Types (extended)** — You can now add individual fill types directly to events via the browser UI
+
+### Changed
+- Commodity handling expanded — events now support **all fill types**, not just crops
+- Multiplayer / dedicated server event settings improved for better consistency and reliability
+
+### Fixed
+- Contract completion issue that could prevent contracts from finishing correctly
+
+---
+
+## [1.1.9.0] - 2026-05-02
+
+### Added
+- **Browse Fill Types Dialog** — New scrollable list in the Event Settings UI that shows all currently tracked fill types. Players can now browse valid crop names and click to automatically populate the "Add Fill Type" input field, eliminating manual typing errors.
+- **Interactive Browsing** — Browse rows now feature hover highlighting and a selection callback system for seamless integration with the Event Fill Type editor.
+
+### Fixed
+- Resolved `attempt to index nil with 'new'` crash when attempting to open the Browse Types dialog due to missing source registration in `modDesc.xml`.
+- Fixed a `GuiOverlay.renderOverlay` crash caused by assigning nil to element overlays; now using transparent color tables to safely bypass engine rendering.
+- Fixed a "white box" visual glitch in the browse dialog by disabling default `ButtonElement` background overlays.
+- Corrected profile property naming (`textFocusedColor`) to ensure automatic text highlighting works as expected in the Giants Engine.
+
+---
+
 ## [1.1.5.1] - 2026-04-29
 
 ### Fixed

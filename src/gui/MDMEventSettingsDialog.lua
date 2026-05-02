@@ -123,6 +123,22 @@ function MDMEventSettingsDialog:onOpen()
     self:_refreshGlobal()
     self:_refreshEventRows()
     self:_refreshFillTypeHint()
+
+    -- Security: Disable all buttons for non-admins
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        if self.globalOffBtn  then self.globalOffBtn:setDisabled(true)  end
+        if self.globalOnBtn   then self.globalOnBtn:setDisabled(true)   end
+        if self.freqRareBtn   then self.freqRareBtn:setDisabled(true)   end
+        if self.freqNormalBtn then self.freqNormalBtn:setDisabled(true) end
+        if self.freqHighBtn   then self.freqHighBtn:setDisabled(true)   end
+
+        for i = 0, MAX_EVENT_ROWS - 1 do
+            if self.rowTogBtns[i]   then self.rowTogBtns[i]:setDisabled(true)   end
+            if self.rowEditBtns[i]  then self.rowEditBtns[i]:setDisabled(true)  end
+            if self.rowForceBtns[i] then self.rowForceBtns[i]:setDisabled(true) end
+        end
+    end
 end
 
 function MDMEventSettingsDialog:onClose()

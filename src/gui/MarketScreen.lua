@@ -213,6 +213,19 @@ end
 function MDMMarketScreen:onOpen()
     MDMMarketScreen:superClass().onOpen(self)
 
+    -- Hide the Event Settings button for regular clients on a dedicated server.
+    -- In singleplayer and for admins/master users the button stays visible.
+    -- g_currentMission:getIsServer() is true in SP and on the host process.
+    -- g_currentMission.isAdmin is true for admin AND master users on a dedi server.
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        self:setMenuButtonInfo({
+            {inputAction = "MENU_EXTRA_1", text = "New Contract",
+             callback = function() self:onNewContractClick() end},
+            {inputAction = "MENU_BACK"},
+        })
+    end
+
     self:onMoneyChange()
     self:rebuildAllData()
     self:reloadAllLists()
@@ -228,8 +241,16 @@ function MDMMarketScreen:onClose()
     MDMMarketScreen:superClass().onClose(self)
 end
 
--- Called by the "Event Settings" button in the Events tab
+-- Called by the "Event Settings" button in the Events tab.
+-- Only the server host, admins, and master users may open this dialog.
+-- Regular clients on a dedicated server are blocked here (not just inside the dialog).
 function MDMMarketScreen:onEventSettingsClick()
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        MDMLog.debug("MarketScreen: onEventSettingsClick ignored — player is not an admin/master")
+        return
+    end
+
     MDMDialogLoader.show("MDMEventSettingsDialog", "setData", {
         onClose = function() end,
     })
@@ -431,6 +452,13 @@ end
 function MDMMarketScreen:onContractRowClick(element)
     if BCIntegration.isEnabled() then return end
 
+    -- Security: Only admins/host can open the admin dialog
+    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    if not isAdmin then
+        MDMLog.debug("MarketScreen: onContractRowClick ignored — player is not an admin")
+        return
+    end
+
     local index = self.selectedContractIndex
     if index <= 0 then return end
 
@@ -571,24 +599,21 @@ function MDMMarketScreen:_buildCommodityData()
     for fillTypeIndex, entry in pairs(engine.prices) do
         local fillType = g_fillTypeManager:getFillTypeByIndex(fillTypeIndex)
         if fillType then
-            -- Only show harvestable field crops (not livestock, packaging, byproducts)
-            local isCrop = g_fruitTypeManager ~= nil
-                and g_fruitTypeManager.getFruitTypeByFillTypeIndex ~= nil
-                and g_fruitTypeManager:getFruitTypeByFillTypeIndex(fillTypeIndex) ~= nil
-            if isCrop then
-                local changePct = engine:getPriceChangePercent(fillTypeIndex)
-                table.insert(self.commodities, {
-                    idx        = fillTypeIndex,
-                    name       = fillType.name,
-                    title      = fillType.title or fillType.name,
-                    current    = entry.current,
-                    base       = entry.base,
-                    changePct  = changePct,
-                    volatility = entry.volatilityFactor,
-                    modifiers  = entry.modifiers,
-                    hudOverlay = fillType.hudOverlayFilename,
-                })
-            end
+            -- Show everything tracked by the engine (anything with a sell price).
+            -- This includes modded fill types (Compost, Wood products) that
+            -- are excluded by the strict FruitType check.
+            local changePct = engine:getPriceChangePercent(fillTypeIndex)
+            table.insert(self.commodities, {
+                idx        = fillTypeIndex,
+                name       = fillType.name,
+                title      = fillType.title or fillType.name,
+                current    = entry.current,
+                base       = entry.base,
+                changePct  = changePct,
+                volatility = entry.volatilityFactor,
+                modifiers  = entry.modifiers,
+                hudOverlay = fillType.hudOverlayFilename,
+            })
         end
     end
 

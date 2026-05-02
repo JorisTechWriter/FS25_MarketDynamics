@@ -192,11 +192,13 @@ local function cmdReloadGui(self)
     MDMDialogLoader.register("MDMContractDialog",      MDMContractDialog,      "xml/gui/MDMContractDialog.xml")
     MDMDialogLoader.register("MDMContractAdminDialog", MDMContractAdminDialog, "xml/gui/MDMContractAdminDialog.xml")
     MDMDialogLoader.register("MDMCustomInputDialog",   MDMCustomInputDialog,   "xml/gui/MDMCustomInputDialog.xml")
+    MDMDialogLoader.register("MDMBrowseFillTypesDialog", MDMBrowseFillTypesDialog, "xml/gui/MDMBrowseFillTypesDialog.xml")
 
-    print("[MDM] mdmReloadGui: done — 3 dialogs will reload from XML on next open")
+    print("[MDM] mdmReloadGui: done — 4 dialogs will reload from XML on next open")
     print("[MDM]   MDMContractDialog      -> xml/gui/MDMContractDialog.xml")
     print("[MDM]   MDMContractAdminDialog -> xml/gui/MDMContractAdminDialog.xml")
     print("[MDM]   MDMCustomInputDialog   -> xml/gui/MDMCustomInputDialog.xml")
+    print("[MDM]   MDMBrowseFillTypesDialog -> xml/gui/MDMBrowseFillTypesDialog.xml")
     print("[MDM] Tip: MarketScreen tab and SettingsUI require a full session restart.")
 end
 

@@ -40,6 +40,7 @@ The core of Market Dynamics is a continuous simulation of supply and demand.
 | 📉 | **Intraday Volatility** | Prices jitter continuously throughout the day. A random walk algorithm ensures no two days look exactly alike. |
 | 🔄 | **Mean Reversion** | If prices spike too high or drop too low, market forces slowly pull them back toward the base vanilla price. |
 | 📊 | **Live Charts** | Session price trends are graphed in real-time in the new Market Screen, helping you spot upward or downward momentum. |
+| 🛠️ | **Event Tuning** | Configure which crops are affected by specific world events via the in-game UI. Includes a "Browse Types" list for easy crop selection. |
 
 ### 🌍 World Event System
 
@@ -128,7 +129,7 @@ This mod is licensed under **[CC BY-NC-ND 4.0](https://creativecommons.org/licen
 
 You may share it in its original form with attribution. You may not sell it, modify and redistribute it, or reupload it under a different name or authorship. Contributions via pull request are explicitly permitted and encouraged.
 
-**Author:** TisonK & LeGrizzly &nbsp;·&nbsp; **Version:** 1.1.5.0
+**Author:** TisonK & LeGrizzly &nbsp;·&nbsp; **Version:** 1.1.9.0
 
 © 2026 TisonK — See [LICENSE](LICENSE) for full terms.
 
