@@ -60,7 +60,7 @@
         <text name="mdm_futures_new_title" text="Nowy kontrakt terminowy"/>
         <text name="mdm_futures_create" text="Nowy kontrakt"/>
         <text name="mdm_futures_fulfill" text="Wypełniony"/>
-        <text name="mdm_futures_defaulted" text="Domyślne"/>
+        <text name="mdm_futures_defaulted" text="Niewykonany"/>
         <text name="mdm_futures_active" text="Aktywny"/>
         <text name="mdm_futures_delivery_label" text="Dostawa"/>
         <text name="mdm_futures_locked_label" text="Cena zablokowana"/>
@@ -102,7 +102,7 @@
         <text name="mdm_admin_cancel_contract"  text="Anuluj kontrakt" />
         <text name="mdm_admin_close"            text="Zamknij" />
         <text name="mdm_admin_delete"           text="Usuń" />
-        <text name="mdm_admin_settled"          text="Ten kontrakt został już rozliczony." />
+        <text name="mdm_admin_settled"          text="Ta umowa jest już rozliczona. Użyj Usuń, aby usunąć ją z listy." />
             <text name="mdm_bc_dialog_suppressed" text="FS25_FuturesMission is active and handles contract creation. Use the Contracts page (ESC menu) to create futures contracts. Get it on GitHub: search FS25_FuturesMission by Mmtrx." />
     </texts>
 </l10n>

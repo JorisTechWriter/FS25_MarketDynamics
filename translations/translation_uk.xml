@@ -57,7 +57,7 @@
         <text name="mdm_futures_new_title" text="Новий ф'ючерсний контракт"/>
         <text name="mdm_futures_create" text="Новий договір"/>
         <text name="mdm_futures_fulfill" text="Виконано"/>
-        <text name="mdm_futures_defaulted" text="За замовчуванням"/>
+        <text name="mdm_futures_defaulted" text="Не виконано"/>
         <text name="mdm_futures_active" text="Активний"/>
         <text name="mdm_futures_delivery_label" text="Доставка"/>
         <text name="mdm_futures_locked_label" text="Заблокована ціна"/>
@@ -99,7 +99,7 @@
         <text name="mdm_admin_cancel_contract"  text="Cancel Contract" />
         <text name="mdm_admin_close"            text="Close" />
         <text name="mdm_admin_delete"           text="Delete" />
-        <text name="mdm_admin_settled"          text="This contract is already settled." />
+        <text name="mdm_admin_settled"          text="Цей контракт вже виконано. Використайте Видалити, щоб прибрати його зі списку." />
             <text name="mdm_bc_dialog_suppressed" text="FS25_FuturesMission is active and handles contract creation. Use the Contracts page (ESC menu) to create futures contracts. Get it on GitHub: search FS25_FuturesMission by Mmtrx." />
     </texts>
 </l10n>

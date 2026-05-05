@@ -38,7 +38,11 @@ function MDMContractAdminDialog.new(target, custom_mt)
 
     -- Action buttons (native buttonBox elements)
     self.admCompleteBtn  = nil
+    self.admCompleteSep  = nil
     self.admCancelBtn    = nil
+    self.admCancelSep    = nil
+    self.admDeleteBtn    = nil
+    self.admDeleteSep    = nil
     self.admCloseBtn     = nil
 
     return self
@@ -78,7 +82,11 @@ function MDMContractAdminDialog:onGuiSetupFinished()
     self.admSettledNotice = self:getDescendantById("admSettledNotice")
 
     self.admCompleteBtn   = self:getDescendantById("admCompleteBtn")
+    self.admCompleteSep   = self:getDescendantById("admCompleteSep")
     self.admCancelBtn     = self:getDescendantById("admCancelBtn")
+    self.admCancelSep     = self:getDescendantById("admCancelSep")
+    self.admDeleteBtn     = self:getDescendantById("admDeleteBtn")
+    self.admDeleteSep     = self:getDescendantById("admDeleteSep")
     self.admCloseBtn      = self:getDescendantById("admCloseBtn")
 
     MDMLog.info("MDMContractAdminDialog:onGuiSetupFinished OK")
@@ -115,16 +123,14 @@ end
 function MDMContractAdminDialog:onCancelContractClick()
     local c = self.contract
     if not c then self:close(); return end
-    if g_MarketDynamics and g_MarketDynamics.futuresMarket then
-        if c.status == "active" then
-            g_MarketDynamics.futuresMarket:adminCancel(c.id)
-            if self._onCancel then self._onCancel(c.id) end
-        else
-            -- Settled contract — delete it from the list
-            g_MarketDynamics.futuresMarket:adminDelete(c.id)
-            if self._onCancel then self._onCancel(c.id) end
-        end
+    -- Both admCancelBtn (active) and admDeleteBtn (settled) route here.
+    -- Determine the correct network action from the actual contract status.
+    if c.status == "active" then
+        MDMContractRequestEvent.sendToServer(MDMContractRequestEvent.ACTION_ADMIN_CANCEL, { contractId = c.id })
+    else
+        MDMContractRequestEvent.sendToServer(MDMContractRequestEvent.ACTION_ADMIN_DELETE, { contractId = c.id })
     end
+    if self._onCancel then self._onCancel(c.id) end
     self:close()
 end
 
@@ -203,19 +209,26 @@ function MDMContractAdminDialog:_populate()
             self:_fmt(delivValue), delivPct))
     end
 
-    -- Show/hide action buttons based on status (native buttonBox buttons)
-    if self.admCompleteBtn then
-        self.admCompleteBtn:setVisible(isActive)
-        self.admCompleteBtn:setDisabled(not isActive)
-    end
-    if self.admCancelBtn then
-        -- Active: "Cancel Contract" | Settled: "Delete"
-        self.admCancelBtn:setVisible(true)
-        if isActive then
-            self.admCancelBtn:setText(g_i18n:getText("mdm_admin_cancel_contract"))
-        else
-            self.admCancelBtn:setText(g_i18n:getText("mdm_admin_delete"))
-        end
+    -- Show/hide action buttons based on contract status.
+    -- Two separate buttons (Cancel for active, Delete for settled) avoid the
+    -- BoxLayout reflow bug that collapses adjacent buttons when setVisible(false)
+    -- is called on one slot inside fs25_dialogButtonBox.
+    if isActive then
+        -- Active contract: show Cancel + Complete, hide Delete
+        if self.admCancelBtn  then self.admCancelBtn:setVisible(true)  end
+        if self.admCancelSep  then self.admCancelSep:setVisible(true)  end
+        if self.admDeleteBtn  then self.admDeleteBtn:setVisible(false) end
+        if self.admDeleteSep  then self.admDeleteSep:setVisible(false) end
+        if self.admCompleteBtn then self.admCompleteBtn:setVisible(true);  self.admCompleteBtn:setDisabled(false) end
+        if self.admCompleteSep then self.admCompleteSep:setVisible(true) end
+    else
+        -- Settled contract: show Delete only, hide Cancel + Complete
+        if self.admDeleteBtn  then self.admDeleteBtn:setVisible(true)  end
+        if self.admDeleteSep  then self.admDeleteSep:setVisible(true)  end
+        if self.admCancelBtn  then self.admCancelBtn:setVisible(false) end
+        if self.admCancelSep  then self.admCancelSep:setVisible(false) end
+        if self.admCompleteBtn then self.admCompleteBtn:setVisible(false); self.admCompleteBtn:setDisabled(true) end
+        if self.admCompleteSep then self.admCompleteSep:setVisible(false) end
     end
 
     -- Hint / settled notice

@@ -1,9 +1,9 @@
 -- DebugHUD.lua
--- TEMP: Developer overlay for testing MDM systems while the real GUI is in progress.
+-- TEMP: Developer overlay for testing MDM systems.
 -- Uses renderText only — no XML, no layout files.
 -- Toggle with the "mdmHud" console command (off by default).
 --
--- DELETE THIS FILE when LeGrizzly's GUI branch is merged to main.
+-- Optional developer overlay, off by default.
 --
 -- Author: tison (dev-1)
 

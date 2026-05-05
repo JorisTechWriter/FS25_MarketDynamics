@@ -90,13 +90,17 @@ end
 -- probabilistically roll for new events when CHECK_INTERVAL elapses.
 -- dt is in-game milliseconds.
 function WorldEventSystem:update(dt)
+    if g_server == nil then return end
+
     self.timer = self.timer + dt
+    local changed = false
 
     -- Tick active events — expire any that have passed their end time
     local now = MDMUtil.getGameTime()
     for id, active in pairs(self.active) do
         if now >= active.endsAt then
             self:_expireEvent(id)
+            changed = true
         end
     end
 
@@ -105,8 +109,17 @@ function WorldEventSystem:update(dt)
         self.timer = 0
         local settings = g_MarketDynamics and g_MarketDynamics.settings
         if not settings or settings.eventsEnabled ~= false then
+            local preCount = 0
+            for _ in pairs(self.active) do preCount = preCount + 1 end
             self:_rollForEvents()
+            local postCount = 0
+            for _ in pairs(self.active) do postCount = postCount + 1 end
+            if preCount ~= postCount then changed = true end
         end
+    end
+
+    if changed and MDMMarketSyncEvent then
+        MDMMarketSyncEvent.sendToClients()
     end
 end
 
@@ -156,6 +169,10 @@ function WorldEventSystem:forceFireEvent(id, intensity)
 
     if event.onFire then
         event.onFire(intensity)
+    end
+
+    if UPIntegration and UPIntegration.onWorldEventFired then
+        UPIntegration.onWorldEventFired(id, intensity, duration)
     end
 
     return true, nil

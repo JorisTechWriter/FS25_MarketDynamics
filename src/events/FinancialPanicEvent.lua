@@ -50,6 +50,7 @@ end
 
 local function onExpire(intensity)
     if not g_MarketDynamics then return end
+    if not g_fillTypeManager then MDMLog.warn("g_fillTypeManager nil") return end
 
     for _, cropName in ipairs(ALL_CROPS) do
         local fillType = g_fillTypeManager:getFillTypeByName(cropName)
@@ -62,8 +63,13 @@ local function onExpire(intensity)
     MDMLog.info("FinancialPanicEvent expired — commodity markets stabilising")
 end
 
+local onLoad = onFire
+local function getExtraData() return "" end
+
 MDM_pendingRegistrations = MDM_pendingRegistrations or {}
 table.insert(MDM_pendingRegistrations, {
+    onLoad         = onLoad,
+    getExtraData   = getExtraData,
     id             = EVENT_ID,
     nameKey        = "mdm_event_financial_panic",
     name           = "Financial Panic",

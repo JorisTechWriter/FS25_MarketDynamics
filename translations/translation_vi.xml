@@ -57,7 +57,7 @@
         <text name="mdm_futures_new_title" text="Hợp đồng tương lai mới"/>
         <text name="mdm_futures_create" text="Hợp đồng mới"/>
         <text name="mdm_futures_fulfill" text="Đã hoàn thành"/>
-        <text name="mdm_futures_defaulted" text="Mặc định"/>
+        <text name="mdm_futures_defaulted" text="Thất bại"/>
         <text name="mdm_futures_active" text="Tích cực"/>
         <text name="mdm_futures_delivery_label" text="Vận chuyển"/>
         <text name="mdm_futures_locked_label" text="Giá bị khóa"/>
@@ -99,7 +99,7 @@
         <text name="mdm_admin_cancel_contract"  text="Cancel Contract" />
         <text name="mdm_admin_close"            text="Close" />
         <text name="mdm_admin_delete"           text="Delete" />
-        <text name="mdm_admin_settled"          text="This contract is already settled." />
+        <text name="mdm_admin_settled"          text="Hợp đồng này đã được thanh toán. Sử dụng Xóa để xóa nó khỏi danh sách." />
             <text name="mdm_bc_dialog_suppressed" text="FS25_FuturesMission is active and handles contract creation. Use the Contracts page (ESC menu) to create futures contracts. Get it on GitHub: search FS25_FuturesMission by Mmtrx." />
     </texts>
 </l10n>

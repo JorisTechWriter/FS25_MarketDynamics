@@ -72,7 +72,7 @@
         <text name="mdm_futures_new_title"       text="New Futures Contract" />
         <text name="mdm_futures_create"          text="New Contract" />
         <text name="mdm_futures_fulfill"         text="Fulfilled" />
-        <text name="mdm_futures_defaulted"       text="Defaulted" />
+        <text name="mdm_futures_defaulted"       text="Failed" />
         <text name="mdm_futures_active"          text="Active" />
         <text name="mdm_futures_delivery_label"  text="Delivery" />
         <text name="mdm_futures_locked_label"    text="Locked Price" />
@@ -110,7 +110,7 @@
         <text name="mdm_admin_cancel_contract"  text="Cancel Contract" />
         <text name="mdm_admin_close"            text="Close" />
         <text name="mdm_admin_delete"           text="Delete" />
-        <text name="mdm_admin_settled"          text="This contract is already settled." />
+        <text name="mdm_admin_settled"          text="This contract is settled. Use Delete to remove it from the list." />
 
         <!-- Custom Input Dialog -->
         <text name="mdm_custom_amount"          text="Custom Amount" />

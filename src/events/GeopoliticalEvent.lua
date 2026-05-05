@@ -52,6 +52,7 @@ end
 
 local function onExpire(intensity)
     if not g_MarketDynamics then return end
+    if not g_fillTypeManager then MDMLog.warn("g_fillTypeManager nil") return end
 
     -- Combine both crop lists for a single removal pass
     local allCrops = {}
@@ -67,8 +68,13 @@ local function onExpire(intensity)
     MDMEventConfig.removeExtra(EVENT_ID)
 end
 
+local onLoad = onFire
+local function getExtraData() return "" end
+
 MDM_pendingRegistrations = MDM_pendingRegistrations or {}
 table.insert(MDM_pendingRegistrations, {
+    onLoad         = onLoad,
+    getExtraData   = getExtraData,
     id             = EVENT_ID,
     nameKey        = "mdm_event_geopolitical",
     name           = "Geopolitical Crisis",

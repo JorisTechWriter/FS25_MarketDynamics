@@ -75,9 +75,11 @@
     <!-- ═══════ ACTION BUTTONS — native game bottom bar ═══════ -->
     <BoxLayout profile="fs25_dialogButtonBox">
       <Button profile="buttonBack" text="$l10n_mdm_admin_close"            onClick="onCloseClick"          id="admCloseBtn"/>
-      <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
-      <Button profile="buttonBack" text="$l10n_mdm_admin_cancel_contract"  onClick="onCancelContractClick" id="admCancelBtn"/>
-      <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+      <Bitmap profile="fs25_dialogButtonBoxSeparator"                                                       id="admDeleteSep"  visible="false"/>
+      <Button profile="buttonBack" text="$l10n_mdm_admin_delete"           onClick="onCancelContractClick" id="admDeleteBtn"   visible="false"/>
+      <Bitmap profile="fs25_dialogButtonBoxSeparator"                                                       id="admCancelSep"  visible="true"/>
+      <Button profile="buttonBack" text="$l10n_mdm_admin_cancel_contract"  onClick="onCancelContractClick" id="admCancelBtn"   visible="true"/>
+      <Bitmap profile="fs25_dialogButtonBoxSeparator"                                                       id="admCompleteSep"/>
       <Button profile="buttonOK"   text="$l10n_mdm_admin_complete"         onClick="onCompleteClick"       id="admCompleteBtn"/>
     </BoxLayout>
 

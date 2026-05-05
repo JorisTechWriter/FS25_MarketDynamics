@@ -57,7 +57,7 @@
         <text name="mdm_futures_new_title" text="Új határidős szerződés"/>
         <text name="mdm_futures_create" text="Új szerződés"/>
         <text name="mdm_futures_fulfill" text="Teljesült"/>
-        <text name="mdm_futures_defaulted" text="Alapértelmezett"/>
+        <text name="mdm_futures_defaulted" text="Nem teljesített"/>
         <text name="mdm_futures_active" text="Aktív"/>
         <text name="mdm_futures_delivery_label" text="Szállítás"/>
         <text name="mdm_futures_locked_label" text="Zárolt ár"/>
@@ -99,7 +99,7 @@
         <text name="mdm_admin_cancel_contract"  text="Cancel Contract" />
         <text name="mdm_admin_close"            text="Close" />
         <text name="mdm_admin_delete"           text="Delete" />
-        <text name="mdm_admin_settled"          text="This contract is already settled." />
+        <text name="mdm_admin_settled"          text="Ez a szerződés már teljesítve lett. Törölje a listából a Törlés gombbal." />
             <text name="mdm_bc_dialog_suppressed" text="FS25_FuturesMission is active and handles contract creation. Use the Contracts page (ESC menu) to create futures contracts. Get it on GitHub: search FS25_FuturesMission by Mmtrx." />
     </texts>
 </l10n>

@@ -34,5 +34,8 @@ function MDMContractSyncRequestEvent:run(connection)
             MDMContractSyncEvent.sendToClient(connection, MDMContractSyncEvent.SYNC_FULL, g_MarketDynamics.futuresMarket.contracts)
         end
         MDMSettingsSyncEvent.sendToClient(connection)
+        if MDMMarketSyncEvent then
+            MDMMarketSyncEvent.sendToClient(connection)
+        end
     end
 end

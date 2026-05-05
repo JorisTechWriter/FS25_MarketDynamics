@@ -209,6 +209,8 @@ function MarketSerializer:load(coordinator)
             quantity      = getXMLFloat (xmlFile, base .. "#quantity"),
             lockedPrice   = getXMLFloat (xmlFile, base .. "#lockedPrice"),
             deliveryTime  = getXMLFloat (xmlFile, base .. "#deliveryTime"),
+            deliveryStartTime = getXMLFloat(xmlFile, base .. "#deliveryStartTime") or 0,
+            bcManaged     = getXMLBool  (xmlFile, base .. "#bcManaged") or false,
             delivered     = getXMLFloat (xmlFile, base .. "#delivered"),
             status        = getXMLString(xmlFile, base .. "#status"),
             upDealId      = getXMLInt  (xmlFile, base .. "#upDealId"),
@@ -347,4 +349,6 @@ function MarketSerializer:load(coordinator)
 
     delete(xmlFile)
     MDMLog.info("MarketSerializer: restored version " .. version)
+end
+)
 end

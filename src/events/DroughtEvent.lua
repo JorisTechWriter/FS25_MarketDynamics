@@ -35,6 +35,7 @@ end
 
 local function onExpire(intensity)
     if not g_MarketDynamics then return end
+    if not g_fillTypeManager then MDMLog.warn("g_fillTypeManager nil") return end
 
     for _, cropName in ipairs(AFFECTED_CROPS) do
         local fillType = g_fillTypeManager:getFillTypeByName(cropName:upper())
@@ -47,8 +48,13 @@ end
 
 -- Deferred registration: MDM_pendingRegistrations is a standalone global that exists
 -- before MarketDynamics is sourced. The coordinator drains it in _registerDefaultEvents().
+local onLoad = onFire
+local function getExtraData() return "" end
+
 MDM_pendingRegistrations = MDM_pendingRegistrations or {}
 table.insert(MDM_pendingRegistrations, {
+    onLoad         = onLoad,
+    getExtraData   = getExtraData,
     id             = EVENT_ID,
     nameKey        = "mdm_event_drought",
     name           = "Regional Drought",

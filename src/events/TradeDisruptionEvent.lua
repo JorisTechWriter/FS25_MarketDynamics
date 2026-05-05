@@ -61,6 +61,7 @@ end
 
 local function onExpire(intensity)
     if not g_MarketDynamics then return end
+    if not g_fillTypeManager then MDMLog.warn("g_fillTypeManager nil") return end
 
     -- Only remove modifiers for crops that were actually applied at fire time.
     -- This includes any user-configured extra fill types that were selected.
@@ -78,6 +79,7 @@ end
 -- onFire so the affected-crop set is deterministically restored rather than re-rolled.
 local function onLoad(intensity, extraData)
     if not g_MarketDynamics then return end
+    if not g_fillTypeManager then MDMLog.warn("g_fillTypeManager nil") return end
 
     _affectedCrops = {}
     local factor = 1.05 + intensity * 0.20

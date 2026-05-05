@@ -90,6 +90,7 @@ function MDMContractSyncEvent:readContract(streamId)
         lockedPrice = streamReadFloat32(streamId),
         deliveryTime = streamReadFloat32(streamId),
         deliveryStartTime = streamReadFloat32(streamId),
+        bcManaged = streamReadBool(streamId),
         delivered = streamReadFloat32(streamId),
         status = streamReadString(streamId)
     }
@@ -131,4 +132,6 @@ end
 function MDMContractSyncEvent:run(connection)
     if not connection:getIsServer() then return end
     MDMContractSyncEvent.execute(self.syncType, self.data)
+end
+
 end
