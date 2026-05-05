@@ -58,6 +58,7 @@ function MDMContractSyncEvent:writeContract(streamId, c)
     streamWriteFloat32(streamId, c.lockedPrice)
     streamWriteFloat32(streamId, c.deliveryTime)
     streamWriteFloat32(streamId, c.deliveryStartTime or 0)
+    streamWriteBool(streamId, c.bcManaged == true)
     streamWriteFloat32(streamId, c.delivered)
     streamWriteString(streamId, c.status)
 end
@@ -132,6 +133,4 @@ end
 function MDMContractSyncEvent:run(connection)
     if not connection:getIsServer() then return end
     MDMContractSyncEvent.execute(self.syncType, self.data)
-end
-
 end

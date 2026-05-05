@@ -350,5 +350,3 @@ function MarketSerializer:load(coordinator)
     delete(xmlFile)
     MDMLog.info("MarketSerializer: restored version " .. version)
 end
-)
-end
