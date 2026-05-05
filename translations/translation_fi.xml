@@ -57,7 +57,7 @@
         <text name="mdm_futures_new_title" text="Uusi futuurisopimus"/>
         <text name="mdm_futures_create" text="Uusi sopimus"/>
         <text name="mdm_futures_fulfill" text="Täytetty"/>
-        <text name="mdm_futures_defaulted" text="Oletusasetus"/>
+        <text name="mdm_futures_defaulted" text="Epäonnistui"/>
         <text name="mdm_futures_active" text="Aktiivinen"/>
         <text name="mdm_futures_delivery_label" text="Toimitus"/>
         <text name="mdm_futures_locked_label" text="Lukittu hinta"/>
@@ -99,7 +99,7 @@
         <text name="mdm_admin_cancel_contract"  text="Cancel Contract" />
         <text name="mdm_admin_close"            text="Close" />
         <text name="mdm_admin_delete"           text="Delete" />
-        <text name="mdm_admin_settled"          text="This contract is already settled." />
+        <text name="mdm_admin_settled"          text="Tämä sopimus on selvitetty. Käytä Poista poistaaksesi sen listalta." />
             <text name="mdm_bc_dialog_suppressed" text="FS25_FuturesMission is active and handles contract creation. Use the Contracts page (ESC menu) to create futures contracts. Get it on GitHub: search FS25_FuturesMission by Mmtrx." />
     </texts>
 </l10n>

@@ -124,8 +124,12 @@ function MDMEventSettingsDialog:onOpen()
     self:_refreshEventRows()
     self:_refreshFillTypeHint()
 
-    -- Security: Disable all buttons for non-admins
-    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    -- Security: Disable all buttons for non-admins.
+    -- isMasterUser covers the ESC "Master Admin" role on dedicated servers
+    -- where isAdmin may not be set at dialog-open time.
+    local isAdmin = g_currentMission:getIsServer()
+        or g_currentMission.isAdmin
+        or g_currentMission.isMasterUser
     if not isAdmin then
         if self.globalOffBtn  then self.globalOffBtn:setDisabled(true)  end
         if self.globalOnBtn   then self.globalOnBtn:setDisabled(true)   end

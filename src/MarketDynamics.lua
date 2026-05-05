@@ -114,6 +114,7 @@ end
 -- Per-frame tick. dt = in-game milliseconds from FSBaseMission.update.
 function MarketDynamics:update(dt)
     if not self.isActive then return end
+    if g_currentMission and g_currentMission.time < 1000 then return end -- wait 1 second for session sync
 
     self.marketEngine:update(dt)     -- intraday and daily price ticks
     self.worldEvents:update(dt)      -- event expiry and probability rolls

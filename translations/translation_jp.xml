@@ -57,7 +57,7 @@
         <text name="mdm_futures_new_title" text="新しい先物契約"/>
         <text name="mdm_futures_create" text="新規契約"/>
         <text name="mdm_futures_fulfill" text="満たされた"/>
-        <text name="mdm_futures_defaulted" text="デフォルト"/>
+        <text name="mdm_futures_defaulted" text="不履行"/>
         <text name="mdm_futures_active" text="アクティブ"/>
         <text name="mdm_futures_delivery_label" text="配達"/>
         <text name="mdm_futures_locked_label" text="ロック価格"/>
@@ -99,7 +99,7 @@
         <text name="mdm_admin_cancel_contract"  text="Cancel Contract" />
         <text name="mdm_admin_close"            text="Close" />
         <text name="mdm_admin_delete"           text="Delete" />
-        <text name="mdm_admin_settled"          text="This contract is already settled." />
+        <text name="mdm_admin_settled"          text="この契約は決済済みです。リストから削除するには「削除」を使用してください。" />
             <text name="mdm_bc_dialog_suppressed" text="FS25_FuturesMission is active and handles contract creation. Use the Contracts page (ESC menu) to create futures contracts. Get it on GitHub: search FS25_FuturesMission by Mmtrx." />
     </texts>
 </l10n>

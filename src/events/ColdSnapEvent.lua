@@ -88,6 +88,7 @@ end
 
 local function onFire(intensity)
     if not g_MarketDynamics then return end
+    if not g_fillTypeManager then MDMLog.warn("g_fillTypeManager nil") return end
     _applyModifiers(intensity)
 end
 

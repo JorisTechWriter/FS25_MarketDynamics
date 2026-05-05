@@ -67,6 +67,9 @@ function MDMMarketScreen.register(modDir)
 end
 
 function MDMMarketScreen.show()
+    if g_gui and g_gui.currentGuiName ~= nil and g_gui.currentGuiName ~= "" and g_gui.currentGuiName ~= "InGameMenu" then
+        return
+    end
     local inGameMenu = g_gui.screenControllers[InGameMenu] or g_inGameMenu
     if inGameMenu == nil then
         MDMLog.info("MarketScreen.show: inGameMenu is nil — cannot open")
@@ -217,7 +220,11 @@ function MDMMarketScreen:onOpen()
     -- In singleplayer and for admins/master users the button stays visible.
     -- g_currentMission:getIsServer() is true in SP and on the host process.
     -- g_currentMission.isAdmin is true for admin AND master users on a dedi server.
-    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    -- g_currentMission.isMasterUser covers the ESC "Master Admin" role on dedi
+    -- servers where isAdmin may not be set until after the first frame open.
+    local isAdmin = g_currentMission:getIsServer()
+        or g_currentMission.isAdmin
+        or g_currentMission.isMasterUser
     if not isAdmin then
         self:setMenuButtonInfo({
             {inputAction = "MENU_EXTRA_1", text = "New Contract",
@@ -245,7 +252,9 @@ end
 -- Only the server host, admins, and master users may open this dialog.
 -- Regular clients on a dedicated server are blocked here (not just inside the dialog).
 function MDMMarketScreen:onEventSettingsClick()
-    local isAdmin = g_currentMission:getIsServer() or g_currentMission.isAdmin
+    local isAdmin = g_currentMission:getIsServer()
+        or g_currentMission.isAdmin
+        or g_currentMission.isMasterUser
     if not isAdmin then
         MDMLog.debug("MarketScreen: onEventSettingsClick ignored — player is not an admin/master")
         return
@@ -480,6 +489,7 @@ end
 function MDMMarketScreen:_onContractAdminAction(action, contractId)
     MDMLog.info(string.format("MarketScreen: admin %s contract #%s", action, tostring(contractId)))
     self._lastAdminDialogTime = 0  -- reset debounce so the next click is never blocked
+    self.selectedContractIndex = 0  -- reset selection so next click re-resolves via onListSelectionChanged
     self:_buildContractData()
     self:reloadAllLists()
 end

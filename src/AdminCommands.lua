@@ -193,6 +193,8 @@ local function cmdReloadGui(self)
     MDMDialogLoader.register("MDMContractAdminDialog", MDMContractAdminDialog, "xml/gui/MDMContractAdminDialog.xml")
     MDMDialogLoader.register("MDMCustomInputDialog",   MDMCustomInputDialog,   "xml/gui/MDMCustomInputDialog.xml")
     MDMDialogLoader.register("MDMBrowseFillTypesDialog", MDMBrowseFillTypesDialog, "xml/gui/MDMBrowseFillTypesDialog.xml")
+    MDMDialogLoader.register("MDMEventSettingsDialog", MDMEventSettingsDialog, "xml/gui/MDMEventSettingsDialog.xml")
+    MDMDialogLoader.register("MDMEventFillTypeDialog", MDMEventFillTypeDialog, "xml/gui/MDMEventFillTypeDialog.xml")
 
     print("[MDM] mdmReloadGui: done — 4 dialogs will reload from XML on next open")
     print("[MDM]   MDMContractDialog      -> xml/gui/MDMContractDialog.xml")

@@ -107,18 +107,27 @@ end
 -- Advance timers and fire intraday/daily volatility ticks.
 -- dt is in-game milliseconds (from FSBaseMission.update).
 function MarketEngine:update(dt)
+    if g_server == nil then return end
+
     self.intradayTimer = self.intradayTimer + dt
     self.dailyTimer    = self.dailyTimer    + dt
+    local changed = false
 
     if self.intradayTimer >= INTRADAY_INTERVAL_MS then
         self.intradayTimer = 0
         self:_applyIntradayVolatility()
+        changed = true
     end
 
     if self.dailyTimer >= DAILY_INTERVAL_MS then
         self.dailyTimer = 0
         self:_applyDailyShift()
         self:refreshBasePrices(false) -- Sync with seasonal changes daily
+        changed = true
+    end
+
+    if changed and MDMMarketSyncEvent then
+        MDMMarketSyncEvent.sendToClients()
     end
 end
 

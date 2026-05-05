@@ -78,6 +78,7 @@ function MDMContractRequestEvent:run(connection)
     if connection:getIsServer() then return end
 
     local userId = g_currentMission.userManager:getUserIdByConnection(connection)
+    -- Intentionally reject if userId is nil (e.g. connection dropped mid-event)
     local farm = userId ~= nil and g_farmManager:getFarmByUserId(userId) or nil
     local isFarmManager = farm ~= nil and farm:isUserFarmManager(userId)
 

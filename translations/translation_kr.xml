@@ -57,7 +57,7 @@
         <text name="mdm_futures_new_title" text="새로운 선물 계약"/>
         <text name="mdm_futures_create" text="새로운 계약"/>
         <text name="mdm_futures_fulfill" text="이행됨"/>
-        <text name="mdm_futures_defaulted" text="기본값"/>
+        <text name="mdm_futures_defaulted" text="불이행"/>
         <text name="mdm_futures_active" text="활동적인"/>
         <text name="mdm_futures_delivery_label" text="배달"/>
         <text name="mdm_futures_locked_label" text="고정 가격"/>
@@ -99,7 +99,7 @@
         <text name="mdm_admin_cancel_contract"  text="Cancel Contract" />
         <text name="mdm_admin_close"            text="Close" />
         <text name="mdm_admin_delete"           text="Delete" />
-        <text name="mdm_admin_settled"          text="This contract is already settled." />
+        <text name="mdm_admin_settled"          text="이 계약은 이미 정산되었습니다. 목록에서 제거하려면 삭제를 사용하세요." />
             <text name="mdm_bc_dialog_suppressed" text="FS25_FuturesMission is active and handles contract creation. Use the Contracts page (ESC menu) to create futures contracts. Get it on GitHub: search FS25_FuturesMission by Mmtrx." />
     </texts>
 </l10n>

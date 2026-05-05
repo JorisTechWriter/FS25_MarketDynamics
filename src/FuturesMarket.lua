@@ -110,7 +110,14 @@ end
 function FuturesMarket:onCropDelivered(farmId, fillTypeIndex, liters)
     local now = MDMUtil.getGameTime()
     local remaining = liters
-    for id, contract in pairs(self.contracts) do
+    
+    local contractList = {}
+    for _, contract in pairs(self.contracts) do
+        table.insert(contractList, contract)
+    end
+    table.sort(contractList, function(a, b) return a.id < b.id end)
+
+    for _, contract in ipairs(contractList) do
         if remaining <= 0 then break end
         if contract.status == "active"
             and contract.farmId == farmId

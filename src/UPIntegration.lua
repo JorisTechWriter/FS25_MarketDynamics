@@ -251,6 +251,6 @@ function UPIntegration.onWorldEventExpired(eventId)
 
     if not EVENT_MODIFIERS[eventId] then return end
 
-    getAPI().removeMarketModifier(MOD_NAME .. "_" .. eventId)
+    getAPI().removeMarketModifier(eventId)
     MDMLog.info("UPIntegration: removed market modifier for '" .. eventId .. "'")
 end
